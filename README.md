@@ -8,7 +8,7 @@ Unity Web Sockets provides a wrapper for using Web Sockets, an advanced technolo
 $ git submodule add https://github.com/unity-packages/web-sockets Assets/packages/web-sockets
 ```
 
-## Requirements
+## Dependencies
 
 - CSharp 4.x (You can change this in Unitys 'Player settings')
 
