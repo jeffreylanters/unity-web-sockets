@@ -7,16 +7,24 @@ using UnityEngine;
 namespace UnityPackages.WebSockets {
   public class WSConnection {
 
+    private const int receiveChunkSize = 1024;
+    private const int sendChunkSize = 1024;
+
     private ClientWebSocket clientWebSocket;
     private Uri uri;
 
     private Action onConnect;
+    private Action onDisconnected;
     private Action<string> onError;
     private Action<WSMessage> onMessage;
 
     public class WSMessage {
       public string name;
       public string data;
+      public WSMessage (string name, string data) {
+        this.name = name;
+        this.data = data;
+      }
     }
 
     public WSConnection (string url) {
@@ -30,34 +38,47 @@ namespace UnityPackages.WebSockets {
       this.clientWebSocket.Options.AddSubProtocol ("Tls");
       try {
         await this.clientWebSocket.ConnectAsync (this.uri, CancellationToken.None);
-        if (this.clientWebSocket.State == WebSocketState.Open) {
-          // ArraySegment<byte> bytesToSend = new ArraySegment<byte> (
-          // 	Encoding.UTF8.GetBytes ("hello fury from unity")
-          // );
-          // await this.clientWebSocket.SendAsync (
-          // 	bytesToSend,
-          // 	WebSocketMessageType.Text,
-          // 	true,
-          // 	CancellationToken.None
-          // );
-          // ArraySegment<byte> bytesReceived = new ArraySegment<byte> (new byte[1024]);
-          // WebSocketReceiveResult result = await this.clientWebSocket.ReceiveAsync (
-          // 	bytesReceived,
-          // 	CancellationToken.None
-          // );
-          // Debug.Log (Encoding.UTF8.GetString (bytesReceived.Array, 0, result.Count));
-        }
         this.onConnect ();
-      } catch (Exception e) {
-        this.onError (e.Message);
-        if (e.InnerException != null) {
-          this.onError (e.InnerException.Message);
-        }
+        this.AwaitWebSocketMessage ();
+      } catch (Exception exception) {
+        this.onError (exception.Message);
+        if (exception.InnerException != null)
+          this.onError (exception.InnerException.Message);
+      }
+    }
+
+    public async void Disconnect () {
+      this.clientWebSocket.Abort ();
+      await this.clientWebSocket.CloseAsync (
+        WebSocketCloseStatus.Empty, "",
+        CancellationToken.None);
+      await this.clientWebSocket.CloseOutputAsync (
+        WebSocketCloseStatus.Empty, "",
+        CancellationToken.None);
+      this.onDisconnected ();
+    }
+
+    private async void AwaitWebSocketMessage () {
+      if (this.clientWebSocket.State == WebSocketState.Open) {
+        var _bytesReceived = new ArraySegment<byte> (new byte[receiveChunkSize]);
+        var _result = await this.clientWebSocket.ReceiveAsync (
+          _bytesReceived,
+          CancellationToken.None
+        );
+        var _data = Encoding.UTF8.GetString (
+          _bytesReceived.Array, 0,
+          _result.Count);
+        this.onMessage (new WSMessage ("nameless", _data));
+        this.AwaitWebSocketMessage ();
       }
     }
 
     public void OnConnected (Action onConnect) {
       this.onConnect = onConnect;
+    }
+
+    public void OnDisconnected (Action onDisconnected) {
+      this.onDisconnected = onDisconnected;
     }
 
     public void OnError (Action<string> onError) {
@@ -69,3 +90,13 @@ namespace UnityPackages.WebSockets {
     }
   }
 }
+
+// ArraySegment<byte> bytesToSend = new ArraySegment<byte> (
+// 	Encoding.UTF8.GetBytes ("hello fury from unity")
+// );
+// await this.clientWebSocket.SendAsync (
+// 	bytesToSend,
+// 	WebSocketMessageType.Text,
+// 	true,
+// 	CancellationToken.None
+// );
