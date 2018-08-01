@@ -20,13 +20,15 @@ using UnityPackages.WebSockets;
 
 public class SocketService : MonoBehaviour {
 
-  private WSConnection wsConnection;
+  private WSConnection wsConnection = new WSConnection ("wss://localhost:3000");
 
   private void Awake () {
-    this.wsConnection = new WSConnection ("wss://localhost:3000");
-    
     this.wsConnection.OnConnected (() => {
       Debug.Log ("WS Connected!");
+    });
+    
+    this.wsConnection.OnDisconnected (() => {
+      Debug.Log ("WS Disconnected!");
     });
 
     this.wsConnection.OnError (error => {
@@ -38,6 +40,10 @@ public class SocketService : MonoBehaviour {
     });
     
     this.wsConnection.Connect ();
+  }
+  
+  private void OnDestroy () {
+    this.wsConnection.Disconnect ();
   }
 }
 ```
