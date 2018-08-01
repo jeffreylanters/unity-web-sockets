@@ -10,7 +10,7 @@ $ git submodule add https://github.com/unity-packages/web-sockets Assets/package
 
 ## Requirements
 
-CSharp 4.0, you can change this in your Unity player settings.
+- CSharp 4.0 (You can change this in Unitys 'Player settings')
 
 ## Usage
 
