@@ -11,3 +11,31 @@ $ git submodule add https://github.com/unity-packages/web-sockets Assets/package
 ## Requirements
 
 CSharp 4.0, you can change this in your Unity player settings.
+
+## Usage
+
+```cs
+using UnityEngine;
+using UnityPackages.WebSockets;
+
+public class SocketService : MonoBehaviour {
+
+	private WSConnection wsConnection = new WSConnection ("wss://localhost:3000");
+
+	private void Awake () {
+		wsConnection.Connect ();
+
+		wsConnection.OnConnected (() => {
+			Debug.Log ("WS Connected!");
+		});
+
+		wsConnection.OnError (error => {
+			Debug.Log ("WS Error " + error);
+		});
+
+		wsConnection.OnMessage (message => {
+			Debug.Log ("Receives message " + message.name + "\nWith data " + message.data);
+		});
+	}
+}
+```
