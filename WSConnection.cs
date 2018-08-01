@@ -18,6 +18,8 @@ namespace UnityPackages.WebSockets {
     private Action<string> onError;
     private Action<WSMessage> onMessage;
 
+    public bool isConnected;
+
     public class WSMessage {
       public string name;
       public string data;
@@ -38,6 +40,7 @@ namespace UnityPackages.WebSockets {
       this.clientWebSocket.Options.AddSubProtocol ("Tls");
       try {
         await this.clientWebSocket.ConnectAsync (this.uri, CancellationToken.None);
+        this.isConnected = true;
         this.onConnect ();
         this.AwaitWebSocketMessage ();
       } catch (Exception exception) {
@@ -48,13 +51,15 @@ namespace UnityPackages.WebSockets {
     }
 
     public async void Disconnect () {
+      this.clientWebSocket.Dispose ();
       this.clientWebSocket.Abort ();
       await this.clientWebSocket.CloseAsync (
         WebSocketCloseStatus.Empty, "",
         CancellationToken.None);
-      await this.clientWebSocket.CloseOutputAsync (
-        WebSocketCloseStatus.Empty, "",
-        CancellationToken.None);
+      // await this.clientWebSocket.CloseOutputAsync (
+      //   WebSocketCloseStatus.Empty, "",
+      //   CancellationToken.None);
+      this.isConnected = false;
       this.onDisconnected ();
     }
 
@@ -70,6 +75,9 @@ namespace UnityPackages.WebSockets {
           _result.Count);
         this.onMessage (new WSMessage ("nameless", _data));
         this.AwaitWebSocketMessage ();
+      } else {
+        this.isConnected = false;
+        this.onDisconnected ();
       }
     }
 
