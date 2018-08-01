@@ -50,12 +50,13 @@ namespace UnityPackages.WebSockets {
       }
     }
 
-    public async void Disconnect () {
+    public void Disconnect () {
+      // this.clientWebSocket.Abort ();
+      // await this.clientWebSocket.CloseAsync (
+      //   WebSocketCloseStatus.Empty, "",
+      //   CancellationToken.None);
       this.clientWebSocket.Dispose ();
-      this.clientWebSocket.Abort ();
-      await this.clientWebSocket.CloseAsync (
-        WebSocketCloseStatus.Empty, "",
-        CancellationToken.None);
+      // this.clientWebSocket = null;
       // await this.clientWebSocket.CloseOutputAsync (
       //   WebSocketCloseStatus.Empty, "",
       //   CancellationToken.None);
