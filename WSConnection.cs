@@ -12,6 +12,12 @@ namespace UnityPackages.WebSockets {
 
     private Action onConnect;
     private Action<string> onError;
+    private Action<WSMessage> onMessage;
+
+    public class WSMessage {
+      public string name;
+      public string data;
+    }
 
     public WSConnection (string url) {
       this.clientWebSocket = new ClientWebSocket ();
@@ -23,7 +29,6 @@ namespace UnityPackages.WebSockets {
       this.clientWebSocket = new ClientWebSocket ();
       this.clientWebSocket.Options.AddSubProtocol ("Tls");
       try {
-
         await this.clientWebSocket.ConnectAsync (this.uri, CancellationToken.None);
         if (this.clientWebSocket.State == WebSocketState.Open) {
           // ArraySegment<byte> bytesToSend = new ArraySegment<byte> (
@@ -57,6 +62,10 @@ namespace UnityPackages.WebSockets {
 
     public void OnError (Action<string> onError) {
       this.onError = onError;
+    }
+
+    public void OnMessage (Action<WSMessage> onMessage) {
+      this.onMessage = onMessage;
     }
   }
 }
