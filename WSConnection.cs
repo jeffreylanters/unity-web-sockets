@@ -16,7 +16,7 @@ namespace UnityPackages.WebSockets {
     private Action onConnect;
     private Action onDisconnected;
     private Action<string> onError;
-    private Action<WSMessage> onMessage;
+    private Action<string> onMessage;
 
     public bool isConnected;
 
@@ -64,6 +64,20 @@ namespace UnityPackages.WebSockets {
       this.onDisconnected ();
     }
 
+    public async void SendMessage (string message) {
+      if (this.isConnected == false)
+        return;
+      ArraySegment<byte> bytesToSend = new ArraySegment<byte> (
+        Encoding.UTF8.GetBytes (message)
+      );
+      await this.clientWebSocket.SendAsync (
+        bytesToSend,
+        WebSocketMessageType.Text,
+        true,
+        CancellationToken.None
+      );
+    }
+
     private async void AwaitWebSocketMessage () {
       if (this.clientWebSocket.State == WebSocketState.Open) {
         var _bytesReceived = new ArraySegment<byte> (new byte[receiveChunkSize]);
@@ -74,7 +88,7 @@ namespace UnityPackages.WebSockets {
         var _data = Encoding.UTF8.GetString (
           _bytesReceived.Array, 0,
           _result.Count);
-        this.onMessage (new WSMessage ("nameless", _data));
+        this.onMessage (_data);
         this.AwaitWebSocketMessage ();
       } else {
         this.isConnected = false;
@@ -94,18 +108,8 @@ namespace UnityPackages.WebSockets {
       this.onError = onError;
     }
 
-    public void OnMessage (Action<WSMessage> onMessage) {
+    public void OnMessage (Action<string> onMessage) {
       this.onMessage = onMessage;
     }
   }
 }
-
-// ArraySegment<byte> bytesToSend = new ArraySegment<byte> (
-// 	Encoding.UTF8.GetBytes ("hello fury from unity")
-// );
-// await this.clientWebSocket.SendAsync (
-// 	bytesToSend,
-// 	WebSocketMessageType.Text,
-// 	true,
-// 	CancellationToken.None
-// );
