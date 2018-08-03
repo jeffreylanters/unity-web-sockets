@@ -36,10 +36,13 @@ public class SocketService : MonoBehaviour {
     });
 
     this.wsConnection.OnMessage (message => {
-      Debug.Log ("Receives message " + message.name + "\nWith data " + message.data);
+      Debug.Log ("Receives message " + message);
     });
     
     this.wsConnection.Connect ();
+    
+    // Sending messages
+    this.wsConnection.SendMessage("Hi!");
   }
   
   private void OnDestroy () {
