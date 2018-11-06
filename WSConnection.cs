@@ -68,14 +68,12 @@ namespace UnityPackages.WebSockets {
       if (this.isConnected == false)
         return;
       ArraySegment<byte> bytesToSend = new ArraySegment<byte> (
-        Encoding.UTF8.GetBytes (message)
-      );
+        Encoding.UTF8.GetBytes (message));
       await this.clientWebSocket.SendAsync (
         bytesToSend,
         WebSocketMessageType.Text,
         true,
-        CancellationToken.None
-      );
+        CancellationToken.None);
     }
 
     private async void AwaitWebSocketMessage () {
@@ -83,8 +81,7 @@ namespace UnityPackages.WebSockets {
         var _bytesReceived = new ArraySegment<byte> (new byte[receiveChunkSize]);
         var _result = await this.clientWebSocket.ReceiveAsync (
           _bytesReceived,
-          CancellationToken.None
-        );
+          CancellationToken.None);
         var _data = Encoding.UTF8.GetString (
           _bytesReceived.Array, 0,
           _result.Count);
