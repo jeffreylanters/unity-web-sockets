@@ -7,7 +7,7 @@ using UnityEngine;
 namespace UnityPackages.WebSockets {
   public class WSConnection {
 
-    private const int receiveChunkSize = 1024;
+    private const int receiveChunkSize = 1024 * 10;
     private const int sendChunkSize = 1024;
 
     private ClientWebSocket clientWebSocket;
