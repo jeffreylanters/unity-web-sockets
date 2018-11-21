@@ -7,8 +7,8 @@ using UnityEngine;
 namespace UnityPackages.WebSockets {
   public class WSConnection {
 
-    private const int receiveChunkSize = 1024 * 10;
-    private const int sendChunkSize = 1024;
+    private int receiveChunkSize = 1024 * 20;
+    private int sendChunkSize = 1024 * 20;
 
     private ClientWebSocket clientWebSocket;
     private Uri uri;
@@ -91,6 +91,11 @@ namespace UnityPackages.WebSockets {
         this.isConnected = false;
         this.onDisconnected ();
       }
+    }
+
+    public void SetChunkSize (int receive, int send) {
+      this.receiveChunkSize = receive;
+      this.sendChunkSize = send;
     }
 
     public void OnConnected (Action onConnect) {
