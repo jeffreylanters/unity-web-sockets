@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -7,8 +8,8 @@ using UnityEngine;
 namespace UnityPackages.WebSockets {
   public class WSConnection {
 
-    private int receiveChunkSize = 1024 * 1000;
-    private int sendChunkSize = 1024 * 1000;
+    private int receiveChunkSize = 1024 * 10000;
+    private int sendChunkSize = 1024 * 10000;
 
     private ClientWebSocket clientWebSocket;
     private Uri uri;
@@ -77,20 +78,21 @@ namespace UnityPackages.WebSockets {
     }
 
     private async void AwaitWebSocketMessage () {
-      if (this.clientWebSocket.State == WebSocketState.Open) {
-        var _bytesReceived = new ArraySegment<byte> (new byte[receiveChunkSize]);
-        var _result = await this.clientWebSocket.ReceiveAsync (
-          _bytesReceived,
-          CancellationToken.None);
-        var _data = Encoding.UTF8.GetString (
-          _bytesReceived.Array, 0,
-          _result.Count);
-        this.onMessage (_data);
-        this.AwaitWebSocketMessage ();
-      } else {
-        this.isConnected = false;
-        this.onDisconnected ();
+      var _buffer = new ArraySegment<byte> (new byte[1024]);
+      var _bytes = new List<byte> ();
+
+      WebSocketReceiveResult _result = null;
+
+      do {
+        _result = await this.clientWebSocket.ReceiveAsync (_buffer, CancellationToken.None);
+        for (int i = 0; i < _result.Count; i++)
+          _bytes.Add (_buffer.Array[i]);
       }
+      while (!_result.EndOfMessage);
+      var _text = Encoding.UTF8.GetString (_bytes.ToArray (), 0, _bytes.Count);
+
+      this.onMessage (_text);
+      this.AwaitWebSocketMessage ();
     }
 
     public void SetChunkSize (int receive, int send) {
