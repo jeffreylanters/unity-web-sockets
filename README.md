@@ -6,9 +6,11 @@ Unity Web Sockets provides a wrapper for using Web Sockets, an advanced technolo
 
 ## Install
 
-```sh
-$ git submodule add https://github.com/unity-packages/web-sockets Assets/packages/web-sockets
 ```
+"com.unity-packages.web-sockets": "git+https://github.com/unity-packages/web-sockets"
+```
+
+[Click here to read the Unity Packages installation guide](https://github.com/unity-packages/installation)
 
 ## Dependencies
 
@@ -28,7 +30,7 @@ public class SocketService : MonoBehaviour {
     this.wsConnection.OnConnected (() => {
       Debug.Log ("WS Connected!");
     });
-    
+
     this.wsConnection.OnDisconnected (() => {
       Debug.Log ("WS Disconnected!");
     });
@@ -40,13 +42,13 @@ public class SocketService : MonoBehaviour {
     this.wsConnection.OnMessage (message => {
       Debug.Log ("Receives message " + message);
     });
-    
+
     this.wsConnection.Connect ();
-    
+
     // Sending messages
     this.wsConnection.SendMessage("Hi!");
   }
-  
+
   private void OnDestroy () {
     this.wsConnection.Disconnect ();
   }
