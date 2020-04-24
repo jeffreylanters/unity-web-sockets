@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-namespace UnityPackages.WebSockets {
+namespace ElRaccoone.WebSockets {
   public class WSConnection {
 
     private int receiveChunkSize = 1024 * 10000;

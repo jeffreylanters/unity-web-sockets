@@ -1,26 +1,43 @@
-# Web Sockets
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/elraccoone/unity-tweens/master/.github/WIKI/logo.jpg" height="100px"></br>
+
+# Tweens
+
+[![npm](https://img.shields.io/badge/upm-1.0.05-232c37.svg?style=for-the-badge)]()
+[![license](https://img.shields.io/badge/license-Custom-%23ecc531.svg?style=for-the-badge)](./LICENSE.md)
+[![npm](https://img.shields.io/badge/sponsor-donate-E12C9A.svg?style=for-the-badge)](https://paypal.me/jeffreylanters)
 
 Unity Web Sockets provides a wrapper for using Web Sockets, an advanced technology that allows real-time interactive communication between the client browser and a server. It uses a completely different protocol that allows bidirectional data flow, making it unique against HTTP.
 
-> NOTE When using this Unity Package, make sure to **Star** this repository. When using any of the packages please make sure to give credits to **Jeffrey Lanters** somewhere in your app or game. **THESE PACKAGES ARE NOT ALLOWED TO BE SOLD ANYWHERE!**
+When using this Unity Package, make sure to **Star** this repository. When using any of the packages please make sure to give credits to **Jeffrey Lanters / El Raccoone** somewhere in your app or game. **It it prohibited to distribute, sublicense, and/or sell copies of the Software!**
 
-## Install
+**&Lt;**
+[**Installation**](#installation) &middot;
+[**Documentation**](#documentation) &middot;
+[**License**](./LICENSE.md) &middot;
+[**Sponsor**](https://paypal.me/jeffreylanters)
+**&Gt;**
 
+**Made with &hearts; by Jeffrey Lanters**
+
+</div>
+
+## Installation
+
+Install using the Unity Package Manager. add the following line to your `manifest.json` file located within your project's packages directory.
+
+```json
+"nl.elraccoone.web-sockets": "git+https://github.com/elraccoone/unity-web-sockets"
 ```
-"com.unity-packages.web-sockets": "git+https://github.com/unity-packages/web-sockets"
-```
 
-[Click here to read the Unity Packages installation guide](https://github.com/unity-packages/installation)
+## Documentation
 
-## Dependencies
-
-- CSharp 4.x (You can change this in Unitys 'Player settings')
-
-## Usage
+### Example Usage
 
 ```cs
 using UnityEngine;
-using UnityPackages.WebSockets;
+using ElRaccoone.WebSockets;
 
 public class SocketService : MonoBehaviour {
 
