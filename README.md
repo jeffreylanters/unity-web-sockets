@@ -68,6 +68,8 @@ public class SocketService : MonoBehaviour {
   }
 
   private void OnDestroy () {
+    // A provided editor script closes connections automatically
+    // Use this method to close the manually.
     this.wsConnection.Disconnect ();
   }
 }
