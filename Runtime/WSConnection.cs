@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
-using UnityEngine;
 
 namespace ElRaccoone.WebSockets {
   public class WSConnection {
@@ -14,10 +13,16 @@ namespace ElRaccoone.WebSockets {
     private ClientWebSocket clientWebSocket;
     private Uri uri;
 
+    private bool hasOnConnected;
+    private bool hasOnDisconnected;
+    private bool hasOnError;
+    private bool hasOnMessage;
     private Action onConnect;
     private Action onDisconnected;
     private Action<string> onError;
     private Action<string> onMessage;
+
+    public static List<WSConnection> instances = new List<WSConnection> ();
 
     public bool isConnected;
 
@@ -34,6 +39,7 @@ namespace ElRaccoone.WebSockets {
       this.clientWebSocket = new ClientWebSocket ();
       this.clientWebSocket.Options.AddSubProtocol ("Tls");
       this.uri = new Uri (url);
+      WSConnection.instances.Add (this);
     }
 
     public async void Connect () {
@@ -42,36 +48,31 @@ namespace ElRaccoone.WebSockets {
       try {
         await this.clientWebSocket.ConnectAsync (this.uri, CancellationToken.None);
         this.isConnected = true;
-        this.onConnect ();
+        if (this.hasOnConnected == true)
+          this.onConnect ();
         this.AwaitWebSocketMessage ();
       } catch (Exception exception) {
-        this.onError (exception.Message);
-        if (exception.InnerException != null)
-          this.onError (exception.InnerException.Message);
+        if (this.hasOnError == true) {
+          this.onError (exception.Message);
+          if (exception.InnerException != null)
+            this.onError (exception.InnerException.Message);
+        }
       }
     }
 
     public void Disconnect () {
-      // this.clientWebSocket.Abort ();
-      // await this.clientWebSocket.CloseAsync (
-      //   WebSocketCloseStatus.Empty, "",
-      //   CancellationToken.None);
-      this.clientWebSocket.Dispose ();
-      // this.clientWebSocket = null;
-      // await this.clientWebSocket.CloseOutputAsync (
-      //   WebSocketCloseStatus.Empty, "",
-      //   CancellationToken.None);
       this.isConnected = false;
-      this.onDisconnected ();
+      if (this.hasOnDisconnected == true)
+        this.onDisconnected ();
     }
 
     public async void SendMessage (string message) {
       if (this.isConnected == false)
         return;
-      ArraySegment<byte> bytesToSend = new ArraySegment<byte> (
+      var _bytesToSend = new ArraySegment<byte> (
         Encoding.UTF8.GetBytes (message));
       await this.clientWebSocket.SendAsync (
-        bytesToSend,
+        _bytesToSend,
         WebSocketMessageType.Text,
         true,
         CancellationToken.None);
@@ -80,19 +81,27 @@ namespace ElRaccoone.WebSockets {
     private async void AwaitWebSocketMessage () {
       var _buffer = new ArraySegment<byte> (new byte[1024]);
       var _bytes = new List<byte> ();
-
-      WebSocketReceiveResult _result = null;
+      var _result = null as WebSocketReceiveResult;
 
       do {
         _result = await this.clientWebSocket.ReceiveAsync (_buffer, CancellationToken.None);
         for (int i = 0; i < _result.Count; i++)
           _bytes.Add (_buffer.Array[i]);
+        if (this.isConnected == false) {
+          this.clientWebSocket.Dispose ();
+          return;
+        }
       }
       while (!_result.EndOfMessage);
-      var _text = Encoding.UTF8.GetString (_bytes.ToArray (), 0, _bytes.Count);
 
-      this.onMessage (_text);
-      this.AwaitWebSocketMessage ();
+      if (_result.MessageType == WebSocketMessageType.Close) {
+        if (this.hasOnDisconnected == true)
+          this.onDisconnected ();
+      } else {
+        if (this.hasOnMessage == true)
+          this.onMessage (Encoding.UTF8.GetString (_bytes.ToArray (), 0, _bytes.Count));
+        this.AwaitWebSocketMessage ();
+      }
     }
 
     public void SetChunkSize (int receive, int send) {
@@ -102,18 +111,22 @@ namespace ElRaccoone.WebSockets {
 
     public void OnConnected (Action onConnect) {
       this.onConnect = onConnect;
+      this.hasOnConnected = true;
     }
 
     public void OnDisconnected (Action onDisconnected) {
       this.onDisconnected = onDisconnected;
+      this.hasOnDisconnected = true;
     }
 
     public void OnError (Action<string> onError) {
       this.onError = onError;
+      this.hasOnError = true;
     }
 
     public void OnMessage (Action<string> onMessage) {
       this.onMessage = onMessage;
+      this.hasOnMessage = true;
     }
   }
 }
