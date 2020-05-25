@@ -58,7 +58,7 @@ public class SocketService : MonoBehaviour {
     });
 
     this.wsConnection.OnMessage (message => {
-      Debug.Log ("Receives message " + message);
+      Debug.Log ("Received message " + message);
     });
 
     this.wsConnection.Connect ();
