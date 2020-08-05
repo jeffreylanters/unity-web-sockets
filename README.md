@@ -24,7 +24,7 @@ When using this Unity Package, make sure to **Star** this repository. When using
 
 </div>
 
-## Installation
+# Installation
 
 Install using the Unity Package Manager. add the following line to your `manifest.json` file located within your project's packages directory.
 
@@ -32,9 +32,9 @@ Install using the Unity Package Manager. add the following line to your `manifes
 "nl.elraccoone.web-sockets": "git+https://github.com/elraccoone/unity-web-sockets"
 ```
 
-## Documentation
+# Documentation
 
-### Example Usage
+## Example Usage
 
 ```cs
 using UnityEngine;
