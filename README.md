@@ -7,7 +7,6 @@
 # Web Sockets
 
 [![npm](https://img.shields.io/badge/upm-1.0.5-232c37.svg?style=for-the-badge)]()
-[![license](https://img.shields.io/badge/license-Custom-%23ecc531.svg?style=for-the-badge)](./LICENSE.md)
 [![npm](https://img.shields.io/github/stars/elraccoone/unity-web-sockets.svg?style=for-the-badge)]()
 [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg?style=for-the-badge)]()
 
