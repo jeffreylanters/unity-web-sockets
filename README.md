@@ -71,8 +71,9 @@ public class SocketService : MonoBehaviour {
 
     this.wsConnection.Connect ();
 
-    // Sending messages
-    this.wsConnection.SendMessage("Hi!");
+    // Queue sending messages, these will always be send in this order.
+    this.wsConnection.SendMessage("Hello,");
+    this.wsConnection.SendMessage("World!");
   }
 
   private void OnDestroy () {
