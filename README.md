@@ -6,7 +6,7 @@
 
 # Web Sockets
 
-[![npm](https://img.shields.io/badge/upm-1.0.5-232c37.svg?style=for-the-badge)]()
+[![npm](https://img.shields.io/badge/upm-2.0.0-232c37.svg?style=for-the-badge)]()
 [![npm](https://img.shields.io/github/stars/elraccoone/unity-web-sockets.svg?style=for-the-badge)]()
 [![npm](https://img.shields.io/badge/build-passing-brightgreen.svg?style=for-the-badge)]()
 
