@@ -68,7 +68,7 @@ namespace ElRaccoone.WebSockets {
     public static List<WSConnection> instances = new List<WSConnection> ();
 
     /// Defines wheter the WebSocket is connected.
-    public bool isConnected { private set; get }
+    public bool isConnected { private set; get; }
 
     /// Instanciates a new WebSocket connection.
     public WSConnection (string uri, string subProtocol = "Tls") {
