@@ -1,15 +1,14 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/elraccoone/unity-web-sockets/master/.github/WIKI/logo.jpg" height="100px">
+<img src="https://raw.githubusercontent.com/elraccoone/unity-web-sockets/master/.github/WIKI/logo-transparent.png" height="100px">
 
 </br>
 
 # Web Sockets
 
-[![npm](https://img.shields.io/badge/upm-1.0.5-232c37.svg?style=for-the-badge)]()
-[![license](https://img.shields.io/badge/license-Custom-%23ecc531.svg?style=for-the-badge)](./LICENSE.md)
-[![npm](https://img.shields.io/github/stars/elraccoone/unity-web-sockets.svg?style=for-the-badge)]()
-[![npm](https://img.shields.io/badge/build-passing-brightgreen.svg?style=for-the-badge)]()
+[![openupm](https://img.shields.io/npm/v/nl.elraccoone.web-sockets?label=UPM&registry_uri=https://package.openupm.com&style=for-the-badge&color=232c37)](https://openupm.com/packages/nl.elraccoone.web-sockets/)
+[![](https://img.shields.io/github/stars/elraccoone/unity-web-sockets.svg?style=for-the-badge)]()
+[![](https://img.shields.io/badge/build-passing-brightgreen.svg?style=for-the-badge)]()
 
 Unity Web Sockets provides a wrapper for using Web Sockets, an advanced technology that allows real-time interactive communication between the client browser and a server. It uses a completely different protocol that allows bidirectional data flow, making it unique against HTTP.
 
@@ -72,8 +71,9 @@ public class SocketService : MonoBehaviour {
 
     this.wsConnection.Connect ();
 
-    // Sending messages
-    this.wsConnection.SendMessage("Hi!");
+    // Queue sending messages, these will always be send in this order.
+    this.wsConnection.SendMessage("Hello,");
+    this.wsConnection.SendMessage("World!");
   }
 
   private void OnDestroy () {
