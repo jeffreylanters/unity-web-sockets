@@ -3,5 +3,10 @@
   "displayName": "Web Sockets",
   "version": "2.0.1",
   "unity": "2018.3",
-  "description": "Unity Web Sockets provides a wrapper for using Web Sockets, an advanced technology that allows real-time interactive communication between the client browser and a server. It uses a completely different protocol that allows bidirectional data flow, making it unique against HTTP."
+  "description": "Unity Web Sockets provides a wrapper for using Web Sockets, an advanced technology that allows real-time interactive communication between the client browser and a server. It uses a completely different protocol that allows bidirectional data flow, making it unique against HTTP.",
+  "type": "library",
+  "hideInEditor": false,
+  "documentationUrl": "https://github.com/jeffreylanters/unity-web-sockets",
+  "changelogUrl": "https://github.com/jeffreylanters/unity-web-sockets/releases",
+  "licensesUrl": "https://github.com/jeffreylanters/unity-web-sockets/blob/master/LICENSE.md"
 }
