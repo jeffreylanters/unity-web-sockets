@@ -1,33 +1,23 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/jeffreylanters/unity-web-sockets/master/.github/WIKI/repository-readme-splash.png" width="100%">
+![readme splash](https://raw.githubusercontent.com/jeffreylanters/unity-web-sockets/master/.github/WIKI/repository-readme-splash.png)
 
-</br>
-</br>
-
+[![license](https://img.shields.io/badge/mit-license-red.svg?style=for-the-badge)](https://github.com/jeffreylanters/unity-web-sockets/blob/master/LICENSE.md)
 [![openupm](https://img.shields.io/npm/v/nl.elraccoone.web-sockets?label=UPM&registry_uri=https://package.openupm.com&style=for-the-badge&color=232c37)](https://openupm.com/packages/nl.elraccoone.web-sockets/)
-[![](https://img.shields.io/github/stars/jeffreylanters/unity-web-sockets.svg?style=for-the-badge)]()
-[![](https://img.shields.io/badge/build-passing-brightgreen.svg?style=for-the-badge)]()
+[![build](https://img.shields.io/badge/build-passing-brightgreen.svg?style=for-the-badge)](https://github.com/jeffreylanters/unity-web-sockets/actions)
+[![deployment](https://img.shields.io/badge/state-success-brightgreen.svg?style=for-the-badge)](https://github.com/jeffreylanters/unity-web-sockets/deployments)
+[![stars](https://img.shields.io/github/stars/jeffreylanters/unity-web-sockets.svg?style=for-the-badge&color=fe8523&label=stargazers)](https://github.com/jeffreylanters/unity-web-sockets/stargazers)
+[![size](https://img.shields.io/github/languages/code-size/jeffreylanters/unity-web-sockets?style=for-the-badge)](https://github.com/jeffreylanters/unity-web-sockets/blob/master/Runtime)
+[![sponsors](https://img.shields.io/github/sponsors/jeffreylanters?color=E12C9A&style=for-the-badge)](https://github.com/sponsors/jeffreylanters)
+[![donate](https://img.shields.io/badge/donate-paypal-F23150?style=for-the-badge)](https://paypal.me/jeffreylanters)
 
 Unity Web Sockets provides a wrapper for using Web Sockets, an advanced technology that allows real-time interactive communication between the client browser and a server. It uses a completely different protocol that allows bidirectional data flow, making it unique against HTTP.
 
-**&Lt;**
 [**Installation**](#installation) &middot;
 [**Documentation**](#documentation) &middot;
 [**License**](./LICENSE.md)
-**&Gt;**
 
-</br></br>
-
-[![npm](https://img.shields.io/badge/fund_this_project-sponsor-E12C9A.svg?style=for-the-badge)](https://github.com/sponsors/jeffreylanters)
-
-Hi! My name is Jeffrey Lanters, thanks for checking out my modules! I've been a Unity developer for years when in 2020 I decided to start sharing my modules by open-sourcing them. So feel free to look around. If you're using this module for production, please consider donating to support the project. When using any of the packages, please make sure to **Star** this repository and give credit to **Jeffrey Lanters** somewhere in your app or game. Also keep in mind **it it prohibited to sublicense and/or sell copies of the Software in stores such as the Unity Asset Store!** Thanks for your time.
-
-**&Lt;**
 **Made with &hearts; by Jeffrey Lanters**
-**&Gt;**
-
-</br>
 
 </div>
 
